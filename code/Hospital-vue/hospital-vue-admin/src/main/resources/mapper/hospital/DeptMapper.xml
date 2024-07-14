@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.LtAo.hospital.mapper.DeptMapper">
+    
+    <resultMap type="Dept" id="DeptResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="outpatient"    column="outpatient"    />
+        <result property="description"    column="description"    />
+        <result property="recommended"    column="recommended"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <resultMap type="DeptVo" id="DeptVoResult">
+        <result property="id"    column="id"    />
+        <result property="deptSubCount"    column="dept_sub_count"    />
+        <result property="doctorCount"    column="doctor_count"    />
+        <result property="name"    column="name"    />
+        <result property="outpatient"    column="outpatient"    />
+        <result property="description"    column="description"    />
+        <result property="recommended"    column="recommended"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+
+    <sql id="selectDeptVo">
+        select id, name, outpatient, description, recommended, create_time, create_by, update_time, update_by from tb_dept
+    </sql>
+
+    <sql id="selectDept1Vo">
+        SELECT
+            d.id AS id,
+            d.create_time AS create_time,
+            d.create_by AS create_by,
+            d.update_time AS update_time,
+            d.update_by AS update_by,
+            d.name AS name,
+            d.outpatient AS outpatient,
+            COUNT(DISTINCT ds.id) AS dept_sub_count,
+            COUNT(DISTINCT dsd.doctor_id) AS doctor_count,
+            d.recommended AS recommended,
+            d.description AS description
+        FROM
+            tb_dept d
+                LEFT JOIN
+            tb_dept_sub ds ON d.id = ds.dept_id
+                LEFT JOIN
+            tb_dept_sub_and_doctor dsd ON ds.id = dsd.dept_sub_id AND dsd.doctor_id IN (SELECT id FROM tb_doctor)
+
+    </sql>
+
+
+
+    <select id="selectDeptVoList" parameterType="Dept" resultMap="DeptVoResult">
+        <include refid="selectDept1Vo"/>
+        <where>
+            <if test="name != null  and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="outpatient != null ">
+                AND outpatient = #{outpatient}
+            </if>
+            <if test="description != null  and description != ''">
+                AND description LIKE CONCAT('%', #{description}, '%')
+            </if>
+            <if test="recommended != null ">
+                AND recommended = #{recommended}
+            </if>
+        </where>
+        GROUP BY d.id, d.name, d.outpatient, d.recommended, d.description
+    </select>
+
+
+    <select id="selectDeptList" parameterType="Dept" resultMap="DeptResult">
+        <include refid="selectDeptVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="outpatient != null "> and outpatient = #{outpatient}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="recommended != null "> and recommended = #{recommended}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeptById" parameterType="Long" resultMap="DeptResult">
+        <include refid="selectDeptVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertDept" parameterType="Dept">
+        insert into tb_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="outpatient != null">outpatient,</if>
+            <if test="description != null">description,</if>
+            <if test="recommended != null">recommended,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="outpatient != null">#{outpatient},</if>
+            <if test="description != null">#{description},</if>
+            <if test="recommended != null">#{recommended},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDept" parameterType="Dept">
+        update tb_dept
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="outpatient != null">outpatient = #{outpatient},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="recommended != null">recommended = #{recommended},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDeptById" parameterType="Long">
+        delete from tb_dept where id = #{id}
+    </delete>
+
+    <delete id="deleteDeptByIds" parameterType="String">
+        delete from tb_dept where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
