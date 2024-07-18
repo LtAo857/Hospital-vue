@@ -1,7 +1,11 @@
 package com.LtAo.hospital.service;
 
+import java.util.HashMap;
 import java.util.List;
+
+import com.LtAo.common.core.domain.model.MiniLoginBody;
 import com.LtAo.hospital.domain.Patient;
+import com.LtAo.hospital.domain.vo.MiniPatientLoginVo;
 
 /**
  * 患者小程序账号Service接口
@@ -58,4 +62,12 @@ public interface IPatientService
      * @return 结果
      */
     public int deletePatientById(Long id);
+
+
+    /**
+     * 小程序登录或者注册
+     * @param miniLoginBody
+     * @return
+     */
+    public MiniPatientLoginVo loginOrRegister(MiniLoginBody miniLoginBody);
 }

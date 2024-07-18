@@ -11,7 +11,7 @@ import com.LtAo.common.core.domain.BaseEntity;
  * 医生对象 tb_doctor
  * 
  * @author LtAo
- * @date 2024-07-13
+ * @date 2024-07-19
  */
 public class Doctor extends BaseEntity
 {
@@ -72,6 +72,14 @@ public class Doctor extends BaseEntity
     @Excel(name = "详细介绍")
     private String description;
 
+    public Long getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(Long jobId) {
+        this.jobId = jobId;
+    }
+
     /** 入职日期 */
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Excel(name = "入职日期", width = 30, dateFormat = "yyyy-MM-dd")
@@ -89,12 +97,7 @@ public class Doctor extends BaseEntity
     @Excel(name = "状态", readConverterExp = "1=在职，2离职，3退休，4隐藏")
     private Long status;
 
-
-    public void setJobId(Long jobId) {
-        this.jobId = jobId;
-    }
-
-    public void setId(Long id)
+    public void setId(Long id) 
     {
         this.id = id;
     }
@@ -201,15 +204,6 @@ public class Doctor extends BaseEntity
     public String getEmail() 
     {
         return email;
-    }
-    public void setJob(Long jobId)
-    {
-        this.jobId = jobId;
-    }
-
-    public Long getJobId()
-    {
-        return jobId;
     }
     public void setDescription(String description) 
     {

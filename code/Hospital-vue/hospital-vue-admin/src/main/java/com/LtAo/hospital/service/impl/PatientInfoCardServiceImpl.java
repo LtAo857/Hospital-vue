@@ -20,6 +20,11 @@ public class PatientInfoCardServiceImpl implements IPatientInfoCardService
     @Autowired
     private PatientInfoCardMapper patientInfoCardMapper;
 
+    @Override
+    public PatientInfoCard selectPatientInfoCardByUserId(Long userId) {
+        return patientInfoCardMapper.selectPatientInfoCardByUserId(userId);
+    }
+
     /**
      * 查询患者信息卡
      * 

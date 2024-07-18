@@ -9,8 +9,18 @@ import com.LtAo.hospital.domain.PatientInfoCard;
  * @author LtAo
  * @date 2024-07-13
  */
-public interface IPatientInfoCardService 
+public interface IPatientInfoCardService
 {
+
+//    /**
+//     * 在患者信息表通过userId查询患者手机号
+//     * @param userId
+//     * @return
+//     */
+//    public String searchPatientTel(int userId);
+//
+
+    public PatientInfoCard selectPatientInfoCardByUserId(Long userId);
     /**
      * 查询患者信息卡
      * 

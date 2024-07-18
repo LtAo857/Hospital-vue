@@ -60,6 +60,20 @@ public class PatientInfoCardController extends BaseController
     }
 
     /**
+     * 通过用户id获取患者信息卡详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('hospital:card:query')")
+    @GetMapping( "/patientInfo/{userId}")
+    public AjaxResult patientInfoCardService(@PathVariable("userId") Long userId)
+    {
+        // 打印userIdStr
+        System.out.println("userId = " + userId);
+        return success(patientInfoCardService.selectPatientInfoCardByUserId(userId));
+    }
+
+
+
+    /**
      * 获取患者信息卡详细信息
      */
     @PreAuthorize("@ss.hasPermi('hospital:card:query')")
