@@ -100,6 +100,36 @@ public class SysLoginService
         return tokenService.createToken(loginUser);
     }
 
+
+    /**
+     * 小程序token权限校验
+     * @param openId
+     * @return
+     */
+//    public String miniProgramLogin(String openId) {
+//        // 登录前置校验，可能需要调整为检查OpenID的有效性
+//        loginPreCheckForMiniProgram(openId);
+//
+//        // 用户验证
+//        Authentication authentication = null;
+//        try {
+//            WechatMiniProgramAuthenticationToken authenticationToken = new WechatMiniProgramAuthenticationToken(openId);
+//            AuthenticationContextHolder.setContext(authenticationToken);
+//            authentication = authenticationManager.authenticate(authenticationToken);
+//        } catch (Exception e) {
+//            throw new ServiceException(e.getMessage());
+//        } finally {
+//            AuthenticationContextHolder.clearContext();
+//        }
+//
+//        // 记录登录信息
+//        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+//        recordLoginInfo(loginUser.getUserId());
+//
+//        // 生成token
+//        return tokenService.createToken(loginUser);
+//    }
+
     /**
      * 校验验证码
      * 
@@ -175,6 +205,10 @@ public class SysLoginService
         SysUser sysUser = new SysUser();
         sysUser.setUserId(userId);
         sysUser.setLoginIp(IpUtils.getIpAddr());
+
+
+
+
         sysUser.setLoginDate(DateUtils.getNowDate());
         userService.updateUserProfile(sysUser);
     }

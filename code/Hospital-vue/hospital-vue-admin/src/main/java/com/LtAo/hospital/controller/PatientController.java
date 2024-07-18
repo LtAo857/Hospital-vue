@@ -2,6 +2,12 @@ package com.LtAo.hospital.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.LtAo.common.constant.Constants;
+import com.LtAo.common.core.domain.model.LoginBody;
+import com.LtAo.common.core.domain.model.MiniLoginBody;
+import com.LtAo.hospital.domain.vo.MiniPatientLoginVo;
+import com.mchange.net.SmtpUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -101,4 +107,18 @@ public class PatientController extends BaseController
     {
         return toAjax(patientService.deletePatientByIds(ids));
     }
+
+
+    /**
+     * 小程序患者登录或注册
+     * @param miniLoginBody
+     * @return
+     */
+    @PostMapping("/loginOrRegister")
+    public AjaxResult login(@RequestBody MiniLoginBody miniLoginBody)
+    {
+        MiniPatientLoginVo miniPatientLoginVo = patientService.loginOrRegister(miniLoginBody);
+        return AjaxResult.success(miniPatientLoginVo);
+    }
+
 }

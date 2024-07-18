@@ -21,6 +21,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, open_id, nickname, photo, sex, status, create_time, update_time, create_by, update_by from tb_patient
     </sql>
 
+
+    <!-- 查询是否注册通过openId-->
+    <select id="searchAlreadyRegistered" parameterType="String" resultType="Integer">
+        SELECT id
+        FROM tb_patient
+        WHERE open_id = #{openId}
+            LIMIT 1
+    </select>
+
+    <!--登录or注册-->
+    <insert id="loginOrRegister" parameterType="Patient" useGeneratedKeys="true" keyProperty="id">
+        insert into tb_patient
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="openId != null and openId != ''">open_id,</if>
+            <if test="nickname != null">nickname,</if>
+            <if test="photo != null">photo,</if>
+            <if test="sex != null">sex,</if>
+            <if test="status != null">status,</if>
+        </trim>
+    </insert>
+
+
+
     <select id="selectPatientList" parameterType="Patient" resultMap="PatientResult">
         <include refid="selectPatientVo"/>
         <where>  
