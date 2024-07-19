@@ -20,6 +20,17 @@ public interface PatientInfoCardMapper
     public PatientInfoCard selectPatientInfoCardById(Long id);
 
     /**
+     * 查询患者信息卡通过用户Id
+     * @param userId
+     * @return
+     */
+    public PatientInfoCard selectPatientInfoCardByUserId(Long userId);
+
+
+
+    /*在患者信息表通过userId查询患者手机号*/
+    public String searchPatientTel(int userId);
+    /**
      * 查询患者信息卡列表
      * 
      * @param patientInfoCard 患者信息卡

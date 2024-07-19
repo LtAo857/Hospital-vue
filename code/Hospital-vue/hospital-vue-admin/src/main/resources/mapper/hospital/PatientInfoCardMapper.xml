@@ -26,6 +26,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, user_id, uuid, name, sex, pid, tel, birthday, medical_history, insurance_type, exist_face_model, create_time, update_time, create_by, update_by from tb_patient_info_card
     </sql>
 
+    <select id="searchPatientTel" parameterType="int" resultType="String">
+        SELECT tel
+        FROM tb_patient_info_card
+        WHERE user_id = ${userId}
+            LIMIT 1
+    </select>
+
     <select id="selectPatientInfoCardList" parameterType="PatientInfoCard" resultMap="PatientInfoCardResult">
         <include refid="selectPatientInfoCardVo"/>
         <where>  
@@ -42,6 +49,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectPatientInfoCardById" parameterType="Long" resultMap="PatientInfoCardResult">
         <include refid="selectPatientInfoCardVo"/>
         where id = #{id}
+    </select>
+
+
+    <!--通过UserId查询患者信息卡-->
+    <select id="selectPatientInfoCardByUserId" parameterType="Long" resultMap="PatientInfoCardResult">
+        <include refid="selectPatientInfoCardVo"/>
+        where user_id = ${userId}
     </select>
 
     <insert id="insertPatientInfoCard" parameterType="PatientInfoCard" useGeneratedKeys="true" keyProperty="id">

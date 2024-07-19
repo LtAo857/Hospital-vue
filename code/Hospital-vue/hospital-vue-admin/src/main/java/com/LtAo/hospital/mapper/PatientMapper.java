@@ -58,4 +58,12 @@ public interface PatientMapper
      * @return 结果
      */
     public int deletePatientByIds(Long[] ids);
+
+
+    /**
+     * 查询当前患者是否注册
+     * @param openId
+     * @return
+     */
+    public Integer searchAlreadyRegistered(String openId);
 }
