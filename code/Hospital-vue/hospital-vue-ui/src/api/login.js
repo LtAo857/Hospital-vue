@@ -58,3 +58,15 @@ export function getCodeImg() {
     timeout: 20000
   })
 }
+
+
+export function tEST() {
+  return request({
+    url: '/tEST',
+    headers: {
+      isToken: false
+    },
+    method: 'get',
+    timeout: 20000
+  })
+}
