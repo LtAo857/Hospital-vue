@@ -60,13 +60,3 @@ export function getCodeImg() {
 }
 
 
-export function tEST() {
-  return request({
-    url: '/tEST',
-    headers: {
-      isToken: false
-    },
-    method: 'get',
-    timeout: 20000
-  })
-}
